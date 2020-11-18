@@ -1,0 +1,88 @@
+vim是什么？
+    vim是一个文件编辑工具相当于记事本
+vim的三种模式
+    vim file_name
+    命令模式：默认是命令模式 只能接受命令 不能输入
+        shift + z + z 保存并退出
+        dd 删除一行数据
+        ndd 删除n行数据
+        u 是撤销上一步的命令
+        yy 用来复制一下个
+        nyy 用来复制n行
+        p 用来粘贴
+        G 定位到最后一行
+        gg 定位到第一行
+        ngg 表示到第n行
+        s 定位到一行的最后面
+        0/^ 定位到这一行的行首
+        x 表示删除光标右边的一个文字，nx表示删除光标右边的n哥文字
+        X 删除光标左边的一个文字，nX是删除光标左边的n个文字
+    插入模式 在这个模式下才能写入内容
+        i 进入插入模式
+        I 在第一个非空字符之前插入数据
+        a 在光标的右侧插入数据
+        A 在光标所在行的结尾插入数据
+        s 删除光标所在位置的数据并开始插入数据
+        S 删除光标所在行的数据并开始插入数据
+        o 在光标所在行的下一行插入数据
+        O 在光标所在行的上一行插入数据
+        想要退出进入到命令模式才能退出 按esc进入命令模式
+    底线命令模式
+        : 进入到底线命令模式
+        :w 保存修改
+        :q 退出
+        :q！不保存强制退出
+        :wq 保存并退出，等价于命令模式的shift + z + z
+        :e！ 放弃之前的修改
+        :n 光标定位到第n行
+        :/[内容] 用来查找内容 n是下一个匹配 N是查找上一个匹配
+        :%s/原内容/新内容 只会替换文件所有内容的每一行第一次匹配到的数据
+        :%s/原内容/新内容/g 全部替换
+        :m,ns/原内容/新内容 从第m行到第n行 替换内容
+    Linux 配置文件介绍
+    定义：
+        每次打开终端，都会自动执行配置文件里面的代码
+    举例:
+        /etc/bashrc文件
+            把命令写进了/etc/bashrc文件，重新连接终端之后仍然可以使用
+            如果写在这个文件下，别写入的命令无论哪个用户都能够使用
+        /.bashrc文件
+            只有写入的用户才能够使用
+
+在创建用户的~/.vimrc中的一些配置
+    1 set nocompatible
+    2 syntax on
+    3 set number
+    4 set cursorline
+    5 set ruler
+    6 set shiftwidth=4
+    7 set softtabstop=4
+    8 set tabstop=4
+    9 set nobackup
+    10 set autochdir
+    11 filetype plugin indent on
+    12 set backupcopy=yes
+    13 set ignorecase smartcase
+    14 set nowrapscan
+    15 set incsearch
+    16 set hlsearch
+    17 set noerrorbells
+    18 set novisualbell
+    19 set t_vb=
+    20 set showmatch
+    21 set matchtime=2
+    22 set magic
+    23 set hidden
+    24 set guioptions-=T
+    25 set guioptions-=m
+    26 set smartindent
+    27 set backspace=indent,eol,start
+    28 set cmdheight=1
+    29 set laststatus=2
+    30 set foldenable
+    31 set foldmethod=syntax
+    32 set foldcolumn=0
+    33 setlocal foldlevel=1
+    34 set foldclose=all
+
+

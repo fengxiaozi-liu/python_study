@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // 定义一个数组
+        var aArray1 = new Array(1,2,3);
+        console.log(aArray1);
+        // 字面量创建一个数组
+        var aArray2=[3,4,5];
+        console.log(aArray2);
+        // 多维数组
+        var aArray3 =[[1,2,3],['a','b','c']];
+        // 根据下标获取数据
+        alert(aArray1[0]);
+        // 演示数组的相关操作
+        var aArray4=[3,6,9];
+        alert(aArray4.length);
+        // 根据下标修改数据
+        aArray4[0]=1;
+        console.log(aArray4);
+        // 删除最后一个元素,pop不支持下标删除
+        alert(aArray4.pop())
+        // 插入一个数据
+        aArray4.splice(1,0,'x');
+        console.log(aArray4)
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

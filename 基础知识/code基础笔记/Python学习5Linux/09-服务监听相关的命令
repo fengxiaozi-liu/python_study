@@ -1,0 +1,18 @@
+服务监听：
+    ps的用法：查看进程信息
+        ps -aux 查看当前所有运行的进程
+        ps -aux| grep 进程名 查看指定的进程
+        ps -aux|grep -v grep|grep nginx 忽略grep操作查看指定的进程
+    psstree 查看后台运行的进程树形结构
+
+    netstat：用来监听网络连接的状态
+        -a 显示所有的socket包括正在监听的
+        -n 以网络TP地址代替名称，显示网络连接情形
+        -o 显示网络计时器的相关信息
+        -u 显示UDP协议连接情况
+        -p 显示建立相关连接的程序名和pid
+        netsata -anop|grep
+
+    kill:终止进程
+        kill pid 终止相应的pid进程
+        kill-9 pid 强制终止进程

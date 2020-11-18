@@ -1,0 +1,22 @@
+{% extends 'mother.html' %}
+
+{% block css %}
+    <style>
+    h1{
+        color: red;
+    }
+    #welcomewords{
+        color: #a6e1ec;
+        font-size: 60px;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1>欢迎{{ user }}来到学生管理系统!</h1>
+    <div id="welcomewords">
+       希望您工作愉快
+    </div>
+</div>
+{% endblock %}

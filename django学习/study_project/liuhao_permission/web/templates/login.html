@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+</head>
+<body>
+<h1>用户登录</h1>
+<form action="/login/" method="post">
+    {% csrf_token %}
+    {% for field in obj %}
+    <p>
+        <label for="">{{ field.label }}</label>
+        {{ field }}{{ field.errors.0 }}
+    </p>
+    {% endfor %}
+    <input type="submit" value="提交">
+    {{ msg }}
+</form>
+</body>
+</html>

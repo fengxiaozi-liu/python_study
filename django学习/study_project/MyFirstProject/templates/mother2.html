@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.css">
+    <style>
+        body{
+            margin: 0;
+        }
+        .page-header{
+            min-width: 1190px;
+            height: 48px;
+            line-height: 48px;
+            text-align: center;
+            background-color: #2e6da4;
+            color: white;
+            margin: 0;
+            font-size: 48px;
+            padding: 0;
+        }
+        .page-body{
+            background-image: url("/static/picture/timg2.jpg");
+            min-width: 1190px;
+            top: 24px;
+            min-height: 1000px;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    {% block css %}{% endblock %}
+</head>
+<body>
+<div class="page-header">
+忍村学生管理系统
+</div>
+<div class="page-body">
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+{% block js %}{% endblock %}
+</body>
+</html>

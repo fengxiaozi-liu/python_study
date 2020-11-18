@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery-1.12.4.min.js"></script>
+    <script>
+        $(function(){
+            // 获取标签
+            var $div=$(".div1")
+            // 通过css性获取到具体的样式属性
+            console.log($div.css("font-size"));
+            // 通过css设置样式属性
+            $div.css({"font-size":"22px","background":"green"});
+            // 获取到标签
+            var $input=$("#text1");
+            // 通过prop()方法来获取到元素属性
+           console.log($input.prop("name"),$input.prop("type"),$input.prop("value")) 
+            // 通过prop()设置属性
+            $input.prop({"class":"tname"})
+            console.log($input.prop("class"))
+            // 使用val获取value属性
+            console.log($input.val)
+            // 使用val设置value属性
+            console.log($input.val("大文本框"))
+        })
+    </script>
+</head>
+<body>
+    <div class="div1">我是一个div标签</div>
+    <input type="text" name="username" id="text1" value="文本框">
+</body>
+</html>

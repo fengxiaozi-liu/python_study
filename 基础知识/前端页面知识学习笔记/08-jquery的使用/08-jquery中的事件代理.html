@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery-1.12.4.min.js"></script>
+    <!-- 事件冒泡，就是事件会一级一级的向上传递 -->
+    <script>
+        $(function(){
+            // 获取标签
+            var $div=$("div");
+            var $p=$("p");
+            var $btn=$("#btn1")
+            // 给子标签增加点击事件
+            $btn.click(function(){
+                alert("我是按钮");
+            })
+            // 扩展：取消事件冒泡，不让事件向父级空间传递
+            // 默认事件会进行冒泡
+            // return false;
+            // 给父标签增加点击事件
+            // $div.click(function(){
+            //     alert("我是div");
+            // })
+            // 通过事件代理，让父控件代理子控件的事件，然后执行子控件的操作
+            var $ul=$("div ul");
+            // 使用delegate来实现父控件代理子控件
+            // 第一个参数是要选择的标签，可以选择多个标签
+            // 第二个参数是需要控制的事件
+            // 第三个参数就是一个匿名函数
+            $ul.delegate("li","click",function(){
+                $(this).css({"color":"red"});
+            })
+            // 扩展：可以代理不同子控件的事件,检验第一个参数可以传递不同的标签
+            var $div1=$("#box");
+            $div1.delegate("#p1,#btn2","click",function(){
+                alert("ok，thank you");
+            })
+        })
+    </script>
+</head>
+<body>
+    <div>
+        <p>hello world</p>
+        <input type="button"  value="按钮" id="btn1">
+        <ul>
+            <li>hello world</li>
+            <li>good moning</li>
+            <li>nice to meet you </li>
+            <li>i am fine </li>
+        </ul>
+    </div>
+    <div id="box">
+        <p id="p1">我是一个段落标签</p>
+        <input type="button" value="按钮" id="btn2">
+    </div>
+</body>
+</html>

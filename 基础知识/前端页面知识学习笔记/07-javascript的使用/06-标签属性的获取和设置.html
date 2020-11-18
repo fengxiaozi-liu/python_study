@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .bstyle{   
+            background:yellow;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            // 根据id获取标签
+           var oB = document.getElementById("b1");
+            // 获取标签属性
+           alert(oB.type);
+           alert(oB.value);
+            //    设置标签属性
+            oB.name = "username";
+            // 设置样式属性
+            // oB.style.background="red";
+            // 相当于设置class，通过类选择器添加样式
+            // 注意：class变成了className然后用得到的标签对象来调用标签样式
+            oB.className="bstyle";
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="按钮" id="b1">
+</body>
+</html>

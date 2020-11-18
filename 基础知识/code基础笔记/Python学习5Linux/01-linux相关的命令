@@ -1,0 +1,30 @@
+linux的指令：
+    软件管理相关的命令 Debian Fedora
+        1.Debian平台代表作是Ubuntu
+            dpkg 用来安装离线安装包 不会自动安装依赖
+            apt 可以离线或者在线安装软件，并且会自动安装依赖
+            .deb基于Debian平台的软件安装包
+        2.Fedora平台代表作是Centos
+            rpm 用来安装离线安装包 不会自动安装依赖
+            yum 可以离线或者在线安装软件，并且会自动安装依赖
+            .rpm是基于Fedora平台的软件安装包
+        3.Windows里下载的软件和安装包都是.exe|.msi
+        4. .tgz是一个压缩包，相当于Windows里的zip/rar
+        5.安装软件的三种方式
+            下载离线安装包 dpkg/rpm
+            直接在线安装 apt/yum
+            把代码的源代码下载下来，然后编译安装 .tgz
+        6.centos安装相关的命令
+            rpm命令
+                rpm -ivh<包名.rpm> 离线安装 不会自动安装依赖，一般会失败，且只能安装已经离线的包
+                rpm -qa 列出安装的所有的软件
+                rpm -e <软件名>  删除想要删除软件 如果软件有依赖就不能删除成功
+            yum命令
+                yum search <packagename> 搜索软件包
+                yum install <包名.rpm> 离线安装
+                yum install 软件名 在线安装软件
+                yum list install 列出已经安装的软件
+                yum remove 软件名  用来卸载已经安装的软件
+                yum check update 显示可用的更新
+                yum update 软件名  更新想要的软件或者包
+                yum info <packagename> 列出指定的包名

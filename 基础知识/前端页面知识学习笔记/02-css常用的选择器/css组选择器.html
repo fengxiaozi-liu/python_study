@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 这里是一个组选择器，这三个类选择器有着同样的属性 */
+        /* 在css里面出现相同的名字会追加不会覆盖 */
+        .box1,.box2,.box3{
+            widows: 100px;
+            height: 100px;
+            color:red
+        }
+    </style>
+</head>
+<body>
+    <!-- div.box1*3 创建三个div并且指定class属性的名字是box1 -->
+    <p class="box1">hello</p>
+    <p class="box2">world</p>
+    <p class="box3">good moning</p>
+</body>
+</html>

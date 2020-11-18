@@ -1,0 +1,41 @@
+{% extends 'mother.html' %}
+
+{% block css %}
+    <style>
+        #del_student{
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            left: 15%;
+            top: 5%;
+        }
+        h1{
+            font-size: 35px;
+            margin: 50px 0;
+            color: #204d74;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div id="del_student">
+        <form method="post" action={% url 'del_student' nid %}>
+            {% csrf_token %}
+            <h1>编辑学生</h1>
+            <p>
+                <label style="font-size: 20px">学生姓名</label>
+                {{ obj.student_name }}{{ obj.errors.student_name.0 }}
+            </p>
+            <p>
+                <label style="font-size: 20px">学生性别</label>
+                {{ obj.gender }}{{ obj.errors.gender.0 }}
+            </p>
+            <p>
+                <label style="font-size: 20px">学生所属班级</label>
+                {{ obj.cls_id }}{{ obj.errors.cls_id.0 }}
+            </p>
+            <input class="btn btn-primary" type="submit" value="确认删除">
+            <a class="btn btn-primary" href={% url 'student' %}>取消</a>
+        </form>
+    </div>
+{% endblock %}

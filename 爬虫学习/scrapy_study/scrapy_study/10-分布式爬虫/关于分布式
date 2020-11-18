@@ -1,0 +1,54 @@
+分布式爬虫：
+    -概念：
+        多台机器共同协作爬取资源
+    -作用：
+        提升爬虫的效率
+如何实现分布式
+    -安装一个scrapy-redis组件
+    -原生的scrapy不支持分布式爬虫
+        -1.调度器不可以被分布式机群共享
+        -2.管道不可以被分布式机群共享
+    -scrapy-redis的作用：
+        可以给原生的scrapy框架提供可以被共享的管道和调度器
+    -实现流程
+        -创建一个工程
+        -创建一个基于CrawlSpider的爬虫文件
+        -修改我们创建好的工程
+            -导入一个包：
+                from scrapy_redis.spiders import RedisCrawlSpider
+            -将start_urls和allowed_domains进行注释
+            -添加一个新属性
+                redis_key = 'sun' 一个可以被共享的调度器队列的名称
+            -编写数据解析相关的操作
+            -将当前爬虫类的父类修改成RedisCrawlSpider
+        -修改配置文件
+            -指定分布式爬虫共享的管道
+                ITEM_PIPELINES = {
+                        'scrapy_redis.pipelines.RedisPipeline': 400
+                }
+            -指定分布式爬虫共享的调度器
+                增加一个去重容器类的配置，作用是使Redis集合来存储请求的指纹数据，从而实现请求去重的持久化
+                DUPEFILTER_CLASS = 'scrapy_redis.dupefilter.RFPDupeFilter'
+                使用scrapy-redis组建自己的调度器
+                SCHEDULER = 'scrapy_redis.scheduler.Scheduler'
+                配置调度器是否要支持持久化，也就是当爬虫结束了，要不要清空Redis中请求队列和去重的set，如果是True
+                SCHEDULER_PERSIST = True
+            -指定redis服务器：
+                REDIS_HOST = 'reids对应的ip地址'
+                REDIS_PORT = '6379'
+        -redis相关操作的配置
+            -配置redis的配置文件
+                如果是在linux或者mac:redis.conf
+                如果是在windows:redis.window.conf
+                修改的地方
+                    修改ip127.0.0.1 -> 删除或者注释掉
+                    将保护模式关闭:protected-mode yes改为no
+                -结合配置文件开启redis服务：
+                    redis-server + 配置文件
+                -启动客户端：
+                    redis-cli
+                -执行我们的工程
+                    scrapy runspider xxx.py
+                -向调度器的队列中放入一个起始url
+                    lpush + 队列的名称 + url
+                -最后从相关的文件中拿取数据

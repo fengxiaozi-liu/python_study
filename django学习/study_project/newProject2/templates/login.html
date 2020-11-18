@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="/app01/login.html">
+    {% csrf_token %}
+    <input type="text" name="user">
+    <input type="text" name="password">
+    <input type="submit" value="提交">{{ msg }}
+</form>
+</body>
+</html>

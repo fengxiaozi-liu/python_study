@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // json就是类似于JavaScript对象的字符串，本质上就是一个字符串，同时还是一种数据格式，web开发常用json格式
+        // json的数据格式有两种，一种是对象形式{}，一种是数组格式[]，
+        var sJson ='{"name":"zhangsan","age":18,"student":["zhangsan",18,"男"],"grade":{"no":1801,"nums":60,"names":"高二一班"}}';
+        // 将json对象转换成js对象
+        var jobj = JSON.parse(sJson);
+        console.log(jobj,jobj.name,jobj.age);
+        // 调用sjson里面的数组中的元素
+        console.log(jobj.student[0]);
+        // 调用sjson中的字典元素，第一种方式
+        console.log(jobj.grade["no"]);  
+        // 调用sjson中字典里面的元素第二种方式  
+        console.log(jobj.grade.no);    
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

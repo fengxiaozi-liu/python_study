@@ -1,0 +1,128 @@
+1.字符集什么时候可以发挥作用？
+    1.保存数据的时候需要使用字符集
+    2.数据传输的时候也需要字符集
+    3.在存续的时候使用字符集
+        1.在MySQL的服务器上，在数据库中，在表的使用上，在字段的设置上
+        2.在服务器安装的时候，可以指定默认的字符集
+2.常见的字符集
+    ASCII
+    GB2312:简体中文字符，一个汉字占用2个字节
+    GBK：只是所有的的中文字符，一个汉字最多占用两个字节
+    UTF8: 国际通用编码，一个汉字最多占用三个字节
+    UTF8MB4：国际通用编码，在utf8的基础上加强了对新文字的识别，一个汉字最多占用4个字节
+
+3.在MySQL中查看默认的编码集
+    show variables like "%charset%"
+
+4.校对集
+    show character set 查看校对集
+    show collaction 查看所有的校对集
+        ci 是大小写不敏感
+        cs 是大小写敏感
+    collate=字符集_bin 是在创建数据库的时候指定校对集区分大小写
+
+5.MySQL的数据类型
+    整型：
+        tinyint 是一个字节八位二进制
+            二进制 最高位为1表示数字是一个负数
+            tinyint 值是0-127
+            有符号数字 最高位当做符号为sign  最小值是-128 最大值是 127
+            无符号的数字 最高位当做数字 最小值是0 最大值是255
+        int 占用4个字节
+        int(num) zerofill 不足num长度的以0补全
+    浮点型：
+        float 占用4个字节
+        double 占用8个字节
+    字符串类型：
+        char(num) 占用num个字符，如果不足会自动用空格补齐 不能超过num个
+        varchar(num) 不能超过num个长度，如果不足不会补全，会额外占用一个字节记录长度
+        text 用来存大量的文字
+        longtext 当需要的长度超过text时使用
+        blob 用来存储非文字的信息
+        exp:  类型      输入     存储方式     大小      细节描述
+            char(5)    'a'      'a    '    5字节     固定五个字节，不足的用空格补全
+            varchar(5) 'a'      'a'        2字节    字符占用一个字节，额外用一个字节记录位长
+    枚举类型
+        enum(选项1，选项2，...) 表示插入数据的时候只能插入选项里面的内容，只能选择选项里面的一个
+        exp： alter table `表名` add gender enum('男','女')
+             insert into `表名`(gender) values('男'/'女'）
+             update `表名` set gender='男’/'女' where 条件
+    集合类型：
+        set(选项1，选项2，选项3，....) set可以进行多选
+        exp:
+            alter table add hobby set('eat','play','sleep')
+            update `表名` set hobby='eat,pla' where 条件
+    时间类型：
+        datetime/date 传入的时候是以字符串的类型传递的） date占用4个字节，datetime占用8个字节
+        exp：
+            alter table person add birthday datetime;
+            insert into person(name,birthday) values('zhangsan','1999-01-01');
+            insert into person(name,birthday) values('lisi','1999/01/01');
+            insert into person(name,birthday) values('wangwu',now());
+    布尔型：
+        exp：
+            alter table people add married bool
+            update people set married=True where name='zhangsan';
+            update people set married=1 where name='zhangsan';
+
+6.MySQL表中列的属性
+    1.not null
+        exp：
+            1.alter table student change name name varchar(8) not null comment '名字不能为空';
+                not null就是名字不能为空 comment是提示的内容
+                传递了not null，又没有给默认值，插入数据的时候没有给名字值，会报错
+            2.alter table student change name name varchar(8) not null default '佚名' comment '名字不能为空';
+                添加了default，不传递一个名字时，不会报错，因为添加了一个默认值
+    2.primary key
+        主键是唯一标识，不能为空，也不能重复，一张表中只能有一个主键
+        exp：
+            create table double_pri_test(
+                id int,
+                sid int,
+                primary key(id,sid)
+            )charset=utf8;
+                primary key(id,sid) 是组合的主键，可以理解为id和sid在一起时才是这个表的唯一主键
+
+            insert into double_pri_test values(1,1) 先创建好一个主键
+            insert into double_pri_test values(1,2) 创建成功，因为虽然id相同，但是sid不相同，也可以看做唯一主键不同
+            insert into double_pri_test values(2,1) 创建成功，和上面同理
+            insert into double_pri_test values(1,1) 创建失败，主键重复
+
+    3.unique
+        unique是唯一约束，就是两行数据在某一字段不能拥有同样的数据
+        exp：
+            alter table people add tel varchar(16) unique;
+                增加完tel字段
+            update people set tel='12345' where id=1;
+            update people set tel='12345' where id=2;
+            这样就会报错，因为两行数据拥有同样的tel数据
+    4.comment
+        comment是注释
+
+
+MySQL数据库表中的运算符
+    支持算术运算符
+        select 1+2
+    支持比较运算符
+        select 12<13
+    支持范围比较
+        select 40 between 30 and 50
+    支持Null比较
+        select 12 is Null或者 select 12 <=> Null
+    支持模糊比较
+        select 'Hello world' like 'hello%'
+    支持逻辑运算符
+       select not 或者 select! 逻辑非
+       select and 或者 select && 逻辑与
+       select or 或者 select || 逻辑或
+       select xor 逻辑异或
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+</head>
+<body>
+    <h1>用户列表</h1>
+    <ul>
+        {% for user in posts.object_list %}
+            <li>{{ user.name }},{{ user.age }}</li>
+        {% endfor %}
+    </ul>
+    <div>
+        {% if posts.has_previous %}
+        <a href="/app01/index.html/?page={{ posts.previous_page_number }}">上一页</a>
+        {% endif %}
+        {% for number in posts.paginator.page_range %}
+            <a href="/app01/index.html?page={{ number }}">{{ number }}</a>
+        {% endfor %}
+        {% if posts.has_next %}
+        <a href="/app01/index.html?page={{ posts.next_page_number }}">下一页</a>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,201 @@
+什么是数据库？
+    数据库就是一个存放电子计算机数据的仓库，该仓库按照一定的规则和标准介个数据结构和算法对数据进行组织和存储。
+    我们可以通过特定的方式来对数据库中的数据进行管理和应用，从而发挥其价值
+
+数据库的种类
+    Mysql
+    MongoDB
+    redis
+    按照数据库理论划分，比较流行的数据库模型分为三种，分别是层次模型，网状模型和关系模型
+    最常用的关系模型和非关系模型
+
+在Linux中安装数据库
+    1.在mysql的官网上下载一个mysql的商店
+        mysql80-community-release-el8-1.noarch.rpm 下载这个安装包
+    2.在Linux中安装这个商店
+        wget https://repo.mysql.com//mysql80-community-release-el8-1.noarch.rpm
+    3.配置mysql为5.7版本
+        找到这个文件
+            /etc/yum.repos.d/mysql-community.repo
+        编辑这个文件呢
+            sudo vim /etc/yum.repos.d/mysql-community.repo
+        在这个文件下加入代码
+            先把8.0的enable改成enable=0 其中0是默认不安装，不安装8.0的版本，因为现在的企业用的都是5.7
+        然后写入
+             [mysql157-communtiy]
+             name=MySQL 5.7 Communtiy Server
+             baseurl=http://repo.mysql.com/yum/mysql-5.7-community/el/7/$basearch/
+             enable=1
+             gpgcheck=1
+             gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
+        最后执行
+            sudo yum install mysql-community-server -y
+
+    4.启动mysql
+        启动服务端：
+            sudo systemctl start mysqld 启动起来数据库
+        启动客户端：
+            1.执行mysql
+            2.查看临时密码 sudo cat /var/log/mysqld.log|grep password
+            3.执行 sudo mysql -uroot -p 最后输入刚才的临时密码进入就可以实现进入mysql客户端
+            4.执行 alter user root@localhost identified with mysql_native_password by '你的密码'
+                因为临时密码什么也做不来所以，所以要修改密码才能运行客户端
+
+    5.忘记数据库密码怎么办？
+        1.打开配置vim /etc/my.cnf
+            不同版本的Linux，不同版本的mysql，不同的安装方法，配置文件名字以及路径不同
+        2.添加这么一段
+            [mysqld] 如果存在直接添加下方代码就可以
+            skip-grant-tables
+        3.修改完成后，保存并退出，重启服务，执行 sudo systemctl restart mysqld.service
+        4.使用命令sudo mysql -uroot 重新连接MySql服务器，此时可以不适用密码直接登录用户
+        5.执行 update mysql.user set authentication_string-password('你的密码') where user-"root";修改root用户密码
+        6.执行flush privileges刷新策略，是策略立刻生效，并退出mysql服务器
+        7.修改 /etc/mysql/mysql.cnf 文件，注释掉第二部添加的两端内容
+        8.运行sudo systemctl restart mysql.service重启mysql服务器
+        9.此时可以使用新密码登录mysql服务器
+
+
+Linux中MySQL权限
+    MySQL权限的两个阶段
+        1.第一阶段为连接验证，主要限制用户连接mysql-server时使用的ip和密码
+        2.第二阶段为操作检查，朱啊哟检查哟农户执行的命令是否被允许，一般非管理员账户不被允许执行drop，delete等危险操作
+    权限控制安全准则
+        1.只授予能满足要求的最小权限，防止用户执行危险操作
+        2.限制用户的登录主机，防止不速之客登录数据库
+        3.禁止和删除没有密码的用户
+        4.禁止用户使用弱密码
+        5.第七清理无效的用户，回收权限，删除用户
+    常用的操作
+        mysql中的14个权限
+            select 查询权限
+            insert 插入权限
+            update 更新数据全新
+            delete 删除权限
+            create 创建权限
+            drop 删库权限
+            index 索引权限
+            alter 更改权限
+            grant 授予权限
+            references 引用权限
+            reload 重新加载权限
+            shutdown 关机权限
+            process  进程权限
+            file    文件权限
+        mysql创建新的用户
+            grant all privileges on *.* to '用户名'@'主机' identified by "密码" with grant option
+            flush privileges; 刷新一下
+        mysql修改密码的两种方式
+            1.update user set authentication_string-password('你的密码') where user="root"
+            2.alter user '用户名'@'主机' identified with mysql_native_password by '你的密码'
+        mysql查看权限
+            show grants 查看当前用户的权限
+            show grants for '用户名'@'主机' 查询指定用户的权限
+        回收权限
+            revoke all privileges on *.* from '用户名'@'主机' 回收指定用户的所有权限
+            revoke grant option on *.* from '用户名'@'主机' 回收用户的传递权限
+        删除用户
+            drop '用户名'@'主机'
+
+
+Linux中MySQL数据库的操作
+    关于数据库的操作
+        1.创建一个数据库
+            create database [if not exists] `数据库名` charset=字符编码(一般是utf8mb4)
+            注意：
+                如果多次创建会报错
+                如果不指定字符编码，默认为utf8mb4(一个汉字占用4个字节)
+                给数据库命名一定要习惯性加上反引号，防止关键字冲突
+        2.查看数据库
+            show databases
+        3.选择数据库
+            use `数据库名`  切换到指定的数据库
+        4.修改数据库(只能修改字符集)
+            alter database `数据库名` charset=字符集
+        5.删除数据库
+            drop database [if not exists] `数据库的名字`
+
+关于数据库中表的操作(表示建立在数据库中的数据结构，是一类数据库的存储集)
+    1.表的创建
+        create table [if not exists] `表的名字`(
+            id int not null auto_increment primary key comment '主键',
+            account char(255) comment '用户名' ,
+            pwd text(16383) comment '密码' ,
+        )charset=utf864;
+        解析：auto_increment 表示主键自增
+             密码一般情况下不为空
+             在创建一个属性的时候必须要有属性名字和属性的类型像 id int （id就是这个属性的名字，int就是这个属性的类型）
+    2.删除表格
+        drop table <table_name>
+    3.查看全部的表格
+        show tables
+    4.查看指定表格的具体数据
+        desc <table_name>
+        describe <table_name>
+    5.查看建立表格的语句
+        show create table <table_name>
+    6.修改表格
+        1.修改表格的名字
+            alter table `old_name` rename `new_name`
+        2.移动表格到指定数据库
+            alter table `表名` rename to 数据库名.表名
+    7.修改表格中的某一个字段
+        1.增加字段
+            alter table `表名` add `字段名` 数据类型.[属性]
+        2.增加一个字段并把它放在首位
+            alter table `表名` add `字段名` 数据类型.[属性] first
+        3.增加一个字段把他放在指定某一字段的后面
+            alter table `表名` add `字段名` 数据类型.[属性] after `字段名`
+
+        4.修改字段的属性
+            alter table `表名` modify `字段名` 数据类型.[属性]
+        5.修改字段的名称
+            alter table `表名` change `原字段名`  `新字段名` 数据类型.[属性]
+        6.修改字段的位置
+            alter table `表名` change `原字段名`  `新字段名` 数据类型.[属性] after `指定字段名`
+        7.删除一个字段
+            alter table `表名` drop `字段名`
+        8.复制表格的结构
+
+
+
+关于MySQL数据库表中数据的操作：
+    对数据库的操作是增(C)删(D)改(U)查(R)
+    对于增加表中的数据
+        1.insert into `表名`(字段1，字段2，...) values(data1,data2,...)
+        2.insert into `表名` values(data1,data2,....) 这个表中有多少个字段就需要写几个数据
+
+    对于查询表中的数据
+        1.select * from 表名 查询所有的字段
+        2.select 字段名 from 表名  查询指定的字段
+        3.补充：
+            一般会配合where和having来查询字段
+
+    对于修改表中的数据
+        1.update `表名` set 属性名=属性值 where 条件 修改数据的某一字段的值
+        2.update `表名` set 属性=password('你的密码') where user='你想要修改的用户' 这是修改用户的密码
+
+    对于删除表中的数据
+        1.delete from `表名` where 条件 删除表中指定条件的数据
+        2.delete from `表名` 这个是删除表中的所有数据
+        3.truncate `表名` 也能达到清空数据的目的
+
+    对于复制表格包括表格里面的数据
+        方式1：
+            create table `表1` select * from `表2`
+                这个复制是创建表1并把表2中的数据复制到表
+                不推荐使用，因为原表中字段的属性不会被复制
+        方式2：
+            1.create table  `表1` like `表2`
+                创建一个表1它有着和表2一样的字段和字段属性
+            2.insert into `表1` select * `表2`
+                然后把表2中的数据全部插入到表1中去
+            方式2一般推荐使用，因为他有原表相同的字段和字段属性
+
+
+补充使用Python安装mycli更方便管理数据库
+    1.安装mycli
+        sudo pip3 install mycli
+    2.使用mycli进入mysql
+        mycli -uroot
+

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>删除老师</h1>
+    <form method="post" action="/del_teacher/">
+        <p>
+            <input type="text" name="id" value="{{ teacher_class.id }}" style="display: none">
+            老师姓名：<input type="text" name="name" value="{{ teacher_class.name }}">
+        </p>
+        <p>
+            任教班级：
+            <select multiple size="5">
+                {% for item in teacher_class.title %}
+                    <option>{{ item.title }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <input type="submit" value="确认删除">
+        <a href="/teacher/">取消</a>
+    </form>
+</body>
+</html>

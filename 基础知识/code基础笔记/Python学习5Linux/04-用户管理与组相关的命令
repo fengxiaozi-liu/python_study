@@ -1,0 +1,58 @@
+用户管理相关的指令
+    whoami 查看当前登录的用户
+    useradd增加用户
+        -m,    创建用户的主目录 在/home文件夹下创建一个和用户名同名的文件夹，默认也会创建
+        -d,    指定用户的家目录，一般情况下不该
+        -M,    不创建用户的家目录
+        -s,    指定用户登录时的shell解析脚本，一般指定/bin/bash
+        useradd 用户名 -m -s/bin/bash 增加一个用户
+        gpasswd 用户名 -a root 把用户放到root组里面去
+
+    su切换用户
+         su 用户名 可以切换到指定的用户
+         su|su- 切换到root用户
+
+    userdel 删除用户的
+        -f 强制删除
+        -r 删除用户的同时，删除用户的家目录
+
+    passwd 用来给用户设置密码
+        passwd 用户名 用来给用户设置密码
+        passwd 给当前用户设置密码
+
+    sudo 使用root用户的权限执行命令
+        作用：让当前用户拥有root权限
+        当sudo 命令时：
+            用户要在sudoers 文件中。否则将会报错
+        怎么把用户加入到sudoers文件中
+            1.不是所有的用户都能执行sudo命令申请root权限 只有被添加到sudoers文件中的用户才能使用
+            2.必须要使用一个有root权限的用户把想要加入的用户加入到/etc/sudoers
+            3.具体操作
+                vim /etc/sudoers
+                在文件中添加就好了
+        Linux专门的命令visudo
+            作用：
+                用来编辑/etc/sudoers文件
+            使用
+               1.更改默认的编辑的打开方式
+                  sudo update-alternative --config editor
+               2.vim visudo 可以修改/etc/sudoers
+
+        第三种方式为用户添加root权限
+            把用户添加到有权限的组里面
+
+组相关的命令
+group
+    当创建一个用户的同时会创建一个同名的分组
+    groups 查看用户当前的分组
+        groups 查看当前用户所在的分组
+        groups user 查看指定用户user在哪个分组
+        gpasswd 将用户从组中添加或者删除
+        gpasswd -a user 组名 将用户user添加到对应的分组里
+        gpasswd -d user 组名 将用户user从指定的组中删除
+
+
+用户和组相关的一些文件
+    /etc/passwd 列出了系统里面所有的用户
+    /etc/group 系统中用户组信息
+    /etc/shadow 系统中用户密码信息

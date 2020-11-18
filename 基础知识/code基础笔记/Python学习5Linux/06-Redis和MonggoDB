@@ -1,0 +1,135 @@
+NoSQL概述
+    Redis是一个用ASCII编写的高性能key-value存储系统
+        读写性能极高
+        支持持久化
+        支持多种数据类型
+        支持主从复制
+        支持分布式集群
+        基于tcp提供的可靠性传输服务
+    Redis的应用场景：
+        高速缓存
+        商品秒杀/投票点赞
+        分布式锁
+        消息队列
+    Redis的安装与配置
+        1.yum安装
+            yum install redis
+        2.源代码安装
+            wget http://download.redis.io/releases/redis-6.0.6.tar.gz?_ga=2.181193511.1402726243.1598929319-1456168076.1598929319
+            tar -zvf redis-6.0.6.tar.gz
+            make&&make install
+            安装Redis执行make命令时遇到此错误:
+                make[3]: gcc：命令未找到
+                make[3]: *** [net.o] 错误 127
+                make[3]: 离开目录“/usr/local/redis-4.0.6/deps/hiredis”
+                make[2]: *** [hiredis] 错误 2
+                make[2]: 离开目录“/usr/local/redis-4.0.6/deps”
+                make[1]: [persist-settings] 错误 2 (忽略)
+                CC adlist.o
+                /bin/sh: cc: 未找到命令
+                make[1]: *** [adlist.o] 错误 127
+                make[1]: 离开目录“/usr/local/redis-4.0.6/src”
+                make: *** [all] 错误 2
+
+                原因:系统无gcc环境
+                    yum install gcc-c++         yum安装gcc
+                    make distclean      清空上次编译失败残留文件
+                    make && make install    执行编译及安装
+
+                注意:必须清空后在编译及安装,否则会报如下错误
+                    In file included from adlist.c:34:0:
+                    zmalloc.h:50:31: 致命错误：jemalloc/jemalloc.h：没有那个文件或目录
+                    #include <jemalloc/jemalloc.h>
+                    ^
+                    编译中断。
+                    make[1]: *** [adlist.o] 错误 1
+                    make[1]: 离开目录“/usr/local/redis-4.0.6/src”
+                    make: *** [all] 错误 2
+                如果大家在centos7下编译redis6.0版本，如果出现以下错误
+                    In file included from server.c:30:0:server.h:1022:5: error: expected specifier-qualifier-list
+                    before ‘_Atomic’_Atomic unsigned int lruclock; /* Clock for LRU eviction */
+
+                    请先检查gcc的版本是否低于5，如果是请先升级，可以使用以下命令：
+                        sudo yum install centos-release-scl
+                        sudo yum install devtoolset-7-gcc*
+                        scl enable devtoolset-7 bash
+
+        redis的配置
+            配置Redis服务绑定到指定端口
+                bind 127.0.0.1
+                port 6379
+            设置后台运行
+                demonize yes
+            设置日志级别，可选值(debug:调试，verbose，notice：通知,warning:警告)
+                loglevel waring
+            设置数据库数量 默认为16个
+                database 16
+            配置数据写入规则：
+                save 900 1      900秒内修改一个key写入数据库
+                save 300 10     300秒内修改10个key写入一次数据库
+                save 60  10000  60秒内修改10000个key，写入一次数据库
+            配置Redis持久化机制-RDB
+                rdbcompression yes 压缩rdb文件
+                rdbchecksum yes 对RDB文件进行校检
+                dbfilename dump.rdb RDB数据库文件的文件名
+                dir /var/local/redis RDB文件保存的目录
+                /var/local/redis/dump.rdb 保存文件的目录
+            配置Redis的持久化机制-AOF
+                appendonly no
+                appendfilename "appendonly.aof"
+Redis中的操作指令
+    字符串：
+        搜索redisdoc里面有全部的指令介绍
+    哈希表：
+        搜索redisdoc里面有全部的指令介绍
+        exp:
+            hset dog name jerry color white
+            hset dog age gender female
+    列表：
+        搜索redisdoc里面有全部的指令介绍
+        redis 类似于队列和栈的结构
+        exp:
+            lpush names lisi
+    集合：
+        搜索redisdoc里面有全部的指令介绍
+        exp:
+            sadd key data1,data2,data3....
+            sismember key data
+            smembers key
+            srandmember key [num]
+            sinter key1 key2
+    有序集合：
+        搜索redisdoc里面有全部的指令介绍
+        exp:
+            zadd key data1 str1 data2 str2.....
+            zrange key 0 -1
+            zrange key 0 -1 withscores
+            zincrby key [num] str
+
+python与redis的结合
+
+
+MongoDB的常见命令操作
+    安装
+        yum install mongodb-server 安装服务器
+        yum install mongodb 安装客户端
+    配置：
+        vim /etc/mongod.conf
+    启动：
+        mongod -f /etc/mongod.conf 启动服务器
+        mongo 启动客户端
+    相关的指令操作
+        show databases 显示所有的数据库
+        use database 切换数据库，如果没有就创建
+        db.createCollection(table_name) 创建一个表
+        db.table_name.insert({key:value}) 向表里插入数据
+        db.table_name.update({key:value},{key:value}) 将前面的一个字典更换为后面的一个字典
+        db.table_name.find() 查找数据
+        show collections 显示所有的表格
+        db.table_name.drop() 删除一个表
+        db.dropDatabase() 删除一个数据库
+
+
+
+
+

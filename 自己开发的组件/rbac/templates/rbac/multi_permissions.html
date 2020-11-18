@@ -1,0 +1,108 @@
+{% extends 'layout.html' %}
+{% load rbac %}
+
+{% block content %}
+    <div class="liuhao-container">
+        <form method="post" action="?type=add">
+            {% csrf_token %}
+            {{ formset_add.management_form }}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-th-list" aria-hidden="true"></i>待新建的权限列表
+                    <input type="submit" value="确认添加" class="fa-save btn btn-primary btn-xs " style="float: right">
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>url</th>
+                        <th>别名</th>
+                        <th>所属菜单</th>
+                        <th>父权限</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for form in formset_add %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            {% for filed in form %}
+                                <td>{{ filed }} <span style="color: red">{{ filed.errors.0 }}</span></td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-th-list" aria-hidden="true"></i>待删除的权限列表
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>url</th>
+                    <th>别名</th>
+                    <th>所属菜单</th>
+                    <th>父权限</th>
+                    <th>选项</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for filed in formset_del %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ filed.title }}</td>
+                        <td>{{ filed.url }}</td>
+                        <td>{{ filed.name }}</td>
+                        <td>
+                            <a href="{% memory_url request 'rbac:multi_permissions_del' filed.id %}" style="color: red">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <form method="post" action="?type=update">
+            {% csrf_token %}
+            {{ formset_update.management_form }}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-th-list" aria-hidden="true"></i>待更新的权限列表
+                    <input type="submit" value="确认更新" class="fa-save btn btn-primary btn-xs" style="float: right">
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>url</th>
+                        <th>别名</th>
+                        <th>所属菜单</th>
+                        <th>父权限</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for form in formset_update %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            {% for filed in form %}
+                                {% if forloop.first %}
+                                    {{ filed }}
+                                {% else %}
+                                    <td>{{ filed }} <span style="color: red">{{ filed.errors.0 }}</span></td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+{% endblock %}

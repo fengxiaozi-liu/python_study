@@ -1,0 +1,259 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+    <style>
+        .hide {
+            display: none;
+        }
+
+        {# 遮罩层的创建遮住 #}
+        .shadow {
+            position: fixed;
+        {# fixed是固定在某个地方相对于窗口来说的 #} left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 999;
+            background: black;
+            opacity: 0.4;
+        }
+
+        .modal1 {
+            z-index: 1000;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            background: white;
+            height: 300px;
+            width: 400px;
+            margin-left: -200px;
+            margin-top: -150px;
+        }
+    </style>
+{% endblock %}
+
+{% block new_content %}
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">首页</a></li>
+        <li role="presentation"><a href="#">学生管理</a></li>
+        <li role="presentation"><a href="#">学生添加</a></li>
+    </ul>
+    <div>
+        <a href="/add_student/">添加</a>
+        <a id="addModal">对话框添加</a>
+        {# ==============================新url方式操作学生====================== #}
+        <table class="table table-striped table table-bordered table table-hover">
+            <thead>
+            <tr>
+                <td>id</td>
+                <td>学生姓名</td>
+                <td>学生所属班级</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for student in student_list %}
+                <tr>
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td cls_id="{{ student.class_id }}">{{ student.title }}</td>
+                    <td>
+                        <a href="/del_student/?nid={{ student.id }}">删除</a>
+                        <a href="/edit_student/?nid={{ student.id }}">编辑</a>
+                        <a class="editModal">对话框编辑</a>
+                        <a class="delModal">对话框删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {# 网页分页 #}
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        {# =========================================模态对话框操作学生======================================== #}
+        <div id="shadow" class="shadow hide"></div>
+
+        {# =================模态对话框添加学生================== #}
+        <div id="add_modal" class="modal1 hide">
+            <h3>增加学生信息对话框</h3>
+            <p>
+                姓名：<input id="add_name" type="text" name="name" placeholder="姓名">
+            </p>
+            <p>
+                班级:
+                <select id="add_class_id" name="class_id">
+                    {% for class in class_list %}
+                        <option value="{{ class.id }}">{{ class.title }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <input id="btn_add" type="button" value="提交"><span id="add_error"></span>
+            <input type="button" value="取消" onclick="concle_modal()">
+        </div>
+
+        {# =========================模态对话框编辑学生=========================== #}
+        <div id="edit_modal" class="modal1 hide">
+            <h3>编辑学生信息对话框</h3>
+            <p>
+                <input id="edit_id" type="text" name="id" style="display: none">
+                姓名：<input id="edit_name" type="text" name="name">
+            </p>
+            班级：
+            <select id="edit_class_id" name="class_id">
+                {% for class in class_list %}
+                    <option value="{{ class.id }}">{{ class.title }}</option>
+                {% endfor %}
+            </select>
+            <p>
+            </p>
+            <input id="btn_edit" type="button" value="确认更新"><span id="edit_error"></span>
+            <input type="button" value="取消" onclick="concle_modal()">
+        </div>
+
+        {# ===============模态对话框删除学生======================== #}
+        <div id="del_modal" class="modal1 hide">
+            <h3>删除学生对话框</h3>
+            <p>
+                <input id="del_id" type="text" name="id" style="display: none">
+                姓名：<input id="del_name" type="text" name="name">
+            </p>
+            <p>
+                班级：
+                <select id="del_class_id" name="class_id">
+                    {% for class in class_list %}
+                        <option value="{{ class.id }}">{{ class.title }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <input id='btn_del' type="button" value="确认删除"><span id="del_error"></span>
+            <input type="button" value="取消" onclick="concle_modal()">
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{# =======================用jquery中的ajax添加点击事件================== #}
+<script src="/static/jquery-1.12.4.js"></script>
+<script>
+
+    {# ==================遮罩层隐藏起来的函数====================== #}
+
+    function concle_modal() {
+        document.getElementById('shadow').classList.add('hide');
+        document.getElementById('add_modal').classList.add('hide');
+        document.getElementById('edit_modal').classList.add('hide');
+        document.getElementById('del_modal').classList.add('hide');
+    }
+
+    {# ==================等页面加载出来后利用jquery操作学生的函数(里面函数让遮罩层显示出来和利用ajax发送数据的方法)================ #}
+    $(function () {
+
+        {# =======一个点击事件让添加学生标签的遮罩层显示出来======= #}
+        $('#addModal').click(function () {
+            $('#shadow,#add_modal').removeClass('hide');
+        });
+
+        {# ========ajax添加学生：利用ajax向后台发送数据并进行页面刷新=============== #}
+        $('#btn_add').click(function () {
+            $.ajax({
+                url: '/modal_add_student/',
+                type: 'POST',
+                data: {'name': $('#add_name').val(), 'class_id': $('#add_class_id').val()},
+                success: function (arg) {
+                    arg = JSON.parse(arg);
+                    if (arg.status) {
+                        location.reload();
+                    } else {
+                        $('#add_error').text(arg.message);
+                    }
+                }
+            })
+        });
+
+        {# =============一个点击事件可以让编辑学生的遮罩层显示出来============== #}
+        $('.editModal').click(function () {
+            $('#shadow,#edit_modal').removeClass('hide');
+            /*
+            1.获取当前标签是$(this)
+             */
+            var row = $(this).parent().prevAll();
+            var student_name = $(row[1]).text();
+            var student_id = $(row[2]).text();
+            var class_id = $(row[0]).attr('cls_id');
+            $('#edit_id').val(student_id);
+            $('#edit_name').val(student_name);
+            $('#edit_class_id').val(class_id);
+
+        });
+
+        {# ============ajax编辑学生：利用ajax向后台发送数据并且进行页面刷新===================== #}
+        $('#btn_edit').click(function () {
+            $.ajax({
+                url: '/modal_edit_student/',
+                type: 'POST',
+                data: {
+                    'id': $('#edit_id').val(),
+                    'name': $('#edit_name').val(),
+                    'class_id': $('#edit_class_id').val()
+                },
+                dataType: 'JSON',
+                success: function (arg) {
+                    if (arg.status) {
+                        location.reload();
+                    } else {
+                        $('#edit_error').text(arg.message);
+                    }
+                }
+            })
+        });
+
+        {# =============一个点击事件可以让删除学生达到遮罩层显示出来============== #}
+        $('.delModal').click(function () {
+            $('#del_modal,#shadow').removeClass('hide');
+            var row = $(this).parent().prevAll();
+            var student_id = $(row[2]).text();
+            var student_name = $(row[1]).text();
+            var class_id = $(row[0]).attr('cls_id');
+            $('#del_id').val(student_id);
+            $('#del_name').val(student_name);
+            $('#del_class_id').val(class_id);
+        });
+
+        {# =================ajax删除学生: 利用ajax删除学生向后台发送数据再进行页面刷新 #}
+        $('#btn_del').click(function () {
+            $.ajax({
+                url: '/modal_del_student/',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {'id': $('#del_id').val()},
+                success: function (arg) {
+                    if (arg.status) {
+                        location.reload();
+                    } else {
+                        $('#del_error').text(arg.message);
+                    }
+                }
+            })
+        })
+    })
+</script>
+{% endblock %}

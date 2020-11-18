@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板页面</title>
+</head>
+<body>
+<ul>
+    <li>{{ context.k1 }}</li>
+    {% for row in context.k2 %}
+        <li>{{ row }}</li>
+    {% endfor %}
+    <li>{{ context.k3.name }} {{ context.k3['name'] }} {{ context.k3.get('name') }}</li>
+    <li>{{ context.k4(5) }}</li>
+{{ context.k5(10) }}
+{{ get_input(11) }}
+</ul>
+</body>
+</html>

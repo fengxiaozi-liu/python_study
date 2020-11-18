@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 定时器：根据指定的时间间隔调用指定的函数 -->
+    <script>
+        // 根据时间的时间间隔调用一次函数的定时器
+        function fnShow(name,age){
+            alert("hello world"+ name+ age);
+            // 下面的代码就是销毁一个定时器
+            clearTimeout(tid)
+
+        }
+        // 第一个参数func，表示定时器要执行的函数名
+        // 第二个参数delay，表示时间间隔，默认是0，单位是毫秒
+        // 第三个参数param1，表示定时器执行函数的第一个参数，依次类推传入多个执行函数对应的参数
+        // 返回值表示创建定时器返回的id，通俗理解就是第几个定时器
+        var tid = setTimeout(fnShow,500,'zhangsan',18);
+        // 定时器使用完成的那个之后要销毁定时器
+        function fnShowinfo(name,age){
+            alert('good evening'+name+age)
+        }
+        function fnStop(){
+            // alert(tid2);
+            clearInterval(tid2)
+        }
+        var tid2 = setInterval(fnShowinfo,3000,'李四',22)
+    </script>
+</head>
+<body>
+    <input type="button" value="停止" onclick="fnStop()",id="p1">
+</body>
+</html>

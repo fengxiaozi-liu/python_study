@@ -1,0 +1,138 @@
+JavaScript简介
+    JavaScript是运行在浏览器端的脚本语言，是由浏览器解释执行的，简称js，他能够让网页和用户有交互功能
+    增加良好的用户体验
+    web前端开发三大块：html：负责网页结构 css：负责网页样式 JavaScript：负责网页行为，网页和用户的交互
+JavaScript的使用方式：
+    行内式：
+        <input type='button' name onclick="alter('ok!');">
+    内嵌式：
+        <script type="text/javaScript">
+            alter('ok')
+        </stript>
+    外链式：
+        <script type="text/javaScript" src="文件路径></stript>
+js的变量和数据类型
+    JavaScript是一种弱类型语言也就是说不需要指定变量的类型，JavaScript的变量类型由它的值来决定，定义变量需要用
+    关键字var，一条JavaScript语句应该以";"结尾。
+    数据类型：
+       5中基本数据类型：
+            number数字类型
+            string字符串类型
+            boolean 布尔类型
+            undefined undefined类型 变量声明未初始化，它的值就是undefined
+            null null类型 表示空对象，如果定义的变量将来准备保存对象，可以将变量初始化为null，在页面上获取不到对象，返回值就是null
+       1中复合类型：
+            object object类型就是复合类型
+    变量名命名规则：
+        区分大小写
+        第一个字符是字母、下划线_、或者美元符号$
+        其他字符可以是字母、下划线、美元或者数字
+    匈牙利命名风格：
+        对象 o Object exp：oDiv
+        数组 a Array exp：altems
+        整形 i integer exp:itemcount
+        字符串 s string exp：sUername
+        布尔值 b Boolean exp：biscomplete
+        浮点型 f float exp：fPrice
+        函数 fn Function exp：fnHander
+
+js中函数的定义与调用
+    1.函数定义
+        函数就是可以重复使用的代码块，使用关键字function定义函数
+    2.函数调用
+        函数调用就是函数名加小括号，比如：函数名(参数1，参数2，...)
+
+变量的作用域：
+    局部变量和全局变量
+    局部变量：
+        局部变量就是在函数内部使用
+    全局变量：
+        就是在函数外定义的变量，可以在不用的函数内使用
+
+js中的条件语句：
+    条件语句就是通过条件来控制程序的走向
+    条件语句语法：
+        if语句 只有当条件为true时，使用该语句来执行代码
+        if..else语句 当条件为true时执行代码，条件为false执行其他代码
+        if...else if...else 是用该语句老判断多条件，执行条件成立的语句
+    比较运算符：
+        == 等于
+        === 全等于包括值和类型
+        !=  不等于
+        > 大于
+        < 小于
+        >= 大于或者等于
+        <= 小于或者等于
+    逻辑运算符：
+        && and
+        || or
+        ！ not
+js 里面获取标签元素：
+    1.获取标签元素
+        可以使用document上的getElementByld方法来获取页面上设置的id属性的标签元素，获取到的是一个html对象
+        然后将它复制给一个变量
+        <script>
+            var oDiv = document.getElementByld('div1')
+            alert(oDiv)
+        </script>
+        <div id='div1'>这是一个div元素</div>
+        说明：
+            上面的代码，如果把JavaScript写在元素上面，就会报错，因为页面是从上往下加载执行的，JavaScript去页面上获取元素div1的时候
+            元素div1还没有加载。
+        解决方案：
+            1.将JavaScript放在页面的最下边
+            2.设置加载完成执行的函数，在执行函数里面获取标签元素。
+js操作标签元素属性
+    1.元素的操作：
+        首先获取的页面内的标签元素，然后可以对页面标签元素的属性进行操作，属性的操作包括：
+            属性的读取
+            属性的设置
+            属性名在js中的写法
+                html属性和js里面属性的大多数写法一样，但是"class"属性携程"className"
+                style属性里面的属性，有横杠的改成驼峰模式 比如"font-size"写成"style.fontSize"
+    2.innerHTML
+        innerHTML可以读取或者设置标签包裹的内容
+
+
+js中数组以及操作方法：
+    1.数组的介绍：
+        数组是一组数据的集合，在JavaScript中，数组里面的数据可以是不同类型，好比Python里面的列表
+    2.数组的定义：
+        实例化对象方式创建
+            var aList = new Arrary(1,2,3);
+        字面量方式创建
+            var aList = [1,2,3]
+    3.多维数组：
+        数组里面的成员也是数组，这样的数组就叫做多维数组
+        var aList=[[1,2,3],['a','b','c']]
+    4.数组的操作
+        length 获取数组的长度
+        push 在数组的最后面添加一个元素
+        pop  删除数组的最后一个元素
+        splice(start,num,element1,...elementN)
+            start:必需，开始删除数组的索引
+            num: 可选 删除数组元素的个数
+            elementN: 可选，从start索引位置要插入的袁术
+            此方法会删除从start索引开始的num哥元素，并将elementN参数插入到start索引位置
+js中的循环语句
+    循环语句就是让一部分代码重复执行，JavaScript中常用的循环语句有：
+        for
+        while
+        do-while do-while 是至少执行一次
+js中字符串的拼接：
+    1.字符串的拼接使用 "+"运算符
+    2.数字和字符串拼接会自动进行类型转换(隐士类型转换),把数字类型转成字符串进行拼接
+js中的定时器；
+    1.定时器的介绍：
+        定时器就是在一段时间后执行某段程序代码
+    2.定时器的使用
+        js定时器有两种创建方式
+        1.setTimeout(func,[,delay,param1,param2,...]) 表示以指定的时间间隔(以毫秒计时)调用一次函数的计时器
+        2.setInterval(func,[,delay,param1,param2,...]) 表示以指定的时间间隔(以毫秒计时) 重复调用一个函数定时器
+        3.setTimeout函数的参数说明
+            第一个参数func，表示定时器要执行的函数名
+            第二个参数delay，表示时间间隔，默认是0，单位是毫秒
+            第三个参数param1，表示定时器执行函数的第一个参数，依次类推传入多个执行函数对应的参数
+
+
+

@@ -1,0 +1,15 @@
+CrawlSpider Spider的这一个子类
+  CrawlSpider是全站数据爬取的
+  如何实现全站数据的爬取：
+     1.基于Spider:手动请求
+     2.基于CrawlSpider
+  CrawlSpider的使用
+    创建一个工程
+    cd xxx
+    创建爬虫文件（基于CrawlSpider)
+        - 规则解析器：
+            -作用：将链接提取器提取的链接进行指定规则的解析
+        -链接提取器
+            -作用：根据指定规则进行指定链接的提取(指定规则：allow对应的正则表达式)
+                  link = LinkExtractor(allow=r'Items/')
+                  allow=正则表达式，就是根据正则表达式的规则去提取相关的页面

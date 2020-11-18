@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    </style>
+</head>
+<body>
+<div>
+    <a href="/app01/logout.html">注销</a>
+    <h2>当前用户:{{ user_info.username }}</h2>
+    <a href="/app01/others.html">查看和我有关系的异性</a>
+    <h3>异性列表</h3>
+    <ul>
+        {% for user in obj %}
+            <li>{{ user.nickname }}   {{ user.username }}</li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

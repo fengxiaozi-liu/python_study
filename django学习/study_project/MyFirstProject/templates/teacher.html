@@ -1,0 +1,35 @@
+{% extends 'mother.html' %}
+
+{% block content %}
+    <div>
+        <h1>老师列表</h1>
+        <a class="btn btn-primary" href={% url 'add_teacher' %}>添加</a>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <td>教师职工号</td>
+                <td>老师姓名</td>
+                <td>管理班级</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for teacher in teacher_list %}
+                <tr>
+                    <td>{{ teacher.id }}</td>
+                    <td>{{ teacher.teacher_name }}</td>
+                    <td>
+                        {% for toc in teacher.teacher.all %}
+                            <span style="padding: 5px; border: 1px solid red">{{ toc.cles.title }}</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href={% url 'edit_teacher' teacher.id %}>编辑</a>
+                        <a class="btn btn-primary" href={% url 'del_teacher' teacher.id %}>删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,4 @@
+urls.py -----> 用于反向生成url
+paginator.py ---------> 自定义分页的功能
+routes.py ----------> 自动发现django项目中所有的url
+__init__permissions.py ----------> 在登录初始化阶段设置session，向session中存放一些数据

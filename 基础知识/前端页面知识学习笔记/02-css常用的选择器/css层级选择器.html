@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 标签选择器要有层级关系，根据层级关系获取子标签，给子标签添加样式 */
+        div div{
+            color:yellow
+        }
+        div .box{
+            color:green
+        }
+        /* 层级选择器不一定是父子关系，祖孙关系的标签页可以找到，完成添加样式 */
+        div p{
+            color:black
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div>哈哈</div>
+        <div class="box">哈哈</div>
+        <div>
+            <p>hello</p>
+        </div>
+    </div>
+</body>
+</html>

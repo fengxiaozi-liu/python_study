@@ -1,0 +1,47 @@
+压缩解压命令：
+    zip压缩解压：
+        zip new_file_name.zip file_name 将文件file_name进行压缩并命名为new_file_name
+            可以对文件和文件夹进行压缩
+        unzip file_name.zip 对文件名为file_name的文件进行解压
+
+    gzip压缩解压
+        gzip file_name 对文件名为file_name的文件进行压缩
+        gzip -r file_name 递归压缩文件夹里面的每一个文件
+        gzip -k file_name 对文件进行压缩并保留原有的文件
+        gunzip file_name.gz 对文件名为file_name，压缩形式为gz的文件进行解压
+        gunzip  -r file_name.gz 解压文件夹中的每一个文件
+        gunzip  -k file_name.gz 对文件夹进行解压并保留原有的文件
+
+        -r(recursion) 就是递归的意思 递归压缩或者递归解压
+        -k(keep) 就是保留原有的文件解压或者压缩
+
+
+    bzip2压缩和解压
+        和gzip压缩功能一样 但是不能压缩文件夹
+        压缩后的文件后缀为.bz
+
+    tar打压缩后的文件(c x t 只能出现一个)
+        压缩中个字母的含义：
+            -c 打包
+                具体使用
+                tar -cf new_file_name.tar file_name 将文件名为file_name的文件夹进行打包并且给它取一个新的名字是new_file_name
+                打包命令不会压缩文件
+            -x 拆包
+                tar -xvf file_name.tar 对名为file_name的包进行拆包
+            -t 不拆包查看内容
+                tar -tvf file_name.tar 不拆包查看包为file_name里面的内容
+            -f 表示指定文件
+            -v 表示查看过程
+            -z 表示使用gzip压缩
+        注意：
+            c t x 只能出现一次 要么打包 要么拆包 要么查看 不能有多余的操作
+
+        Linux中常见的压缩方式
+            用gzip方式压缩打包或者解压拆包.tgz文件
+                tar -zcvf  new_file_name.tgz file_name 对指定的文件进行压缩并打包，然后给他取一个新的名字就ok
+                tar -zxfv file_name.tgz 对打包压缩后的文件进行解压拆包
+            用bizp2方式压缩打包或者解压拆包.tbz文件
+                tar -jcvf  new_file_name.tbz file_name 对指定的文件进行压缩并打包，然后给他取一个新的名字
+                tar -jxfv file_name.tgz 对打包压缩后的文件进行解压拆包
+
+

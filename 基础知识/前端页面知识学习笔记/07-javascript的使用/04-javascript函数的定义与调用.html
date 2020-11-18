@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function fnFirst(){
+            alert('hello,我是一个无参数的函数');
+        }
+        function fnAdd(iNum1,iNum2){
+            var iresult=iNum1 + iNum2;
+            // return关键字和Python中的作用是一样的，可以返回值，但是return结束后就不能执行后面的代码块
+            return iresult;
+        }
+        fnFirst();
+        var ix = fnAdd(1,2);
+        alert(ix);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // 自定义JavaScript的对象有两种方式
+        // 用顶级类型object创建自定义对象
+        var oPerson = new Object();
+        // 添加属性
+        oPerson.name="zhangsan"
+        oPerson.age = 20
+        // 通过对象获取属性和调用方法
+        console.log(oPerson.age)
+        oPerson.show=function(){
+            console.log(oPerson.name+"是一个好人")
+        }
+        // 调用方法
+        oPerson.show();
+        // 用字面量创建自定对象
+        var ostudent ={
+            // 定义属性
+            name:"lisi",
+            age:20,
+            // 定义方法
+            show:function(){
+                console.log(ostudent.name+"是一个好学生");
+            }
+        }
+        // 调用属性
+        console.log(ostudent.name,ostudent.age);
+        // 调用方法
+        ostudent.show();
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

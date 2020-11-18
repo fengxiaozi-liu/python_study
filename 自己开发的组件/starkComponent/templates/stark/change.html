@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="liuhao-container">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <tr>
+                    {{ field.label }}
+                    <td>
+                        {{ field }}{{ field.errors.0 }}
+                    </td>
+                </tr>
+            {% endfor %}
+            <input type="submit" value="保存" class="btn btn-success" style="margin: 10px 5px">
+        </form>
+    </div>
+{% endblock %}
