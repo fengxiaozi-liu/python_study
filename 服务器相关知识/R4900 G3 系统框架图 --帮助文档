@@ -1,0 +1,75 @@
+R4900 G3 系统框架图 --帮助文档
+1.AST2500 SPI和eSPI模块
+	AST2500提供一个eSPI接口和三个SPI接口
+	eSPI:连接PCH和AST2500用于boot BIOS flash
+	SPI-CS0连接主的BMC或者BIOS,SPI-CS1用于连接备用的BMC或者是BIOS
+
+2.USB模块
+	AST2500提供了连个USB接口，所以能够配置是三种模式
+	模式一:
+		1个USB2.0接口+一个USB1.1接口/一个USB2.0接口
+
+		USB2.0接口：用于多端口转发器(HUB)的重定向功能
+		USB1.1接口：用于人机接口(HID)的重定向或者备份/USB2.0接口：让USB设备能够连接其他主机或者与BMC进行交流
+	模式二：
+		两个USB2.0接口
+		
+		一个USB2.0接口用于USB的重定向功能
+		一个USB2.0接口为USB主机功能服务
+	模式三
+		两个USB2.0接口
+
+		这两个USB2.0接口都是为USB主机服务
+
+	补充：
+		当USB2B连接到SouthBrigde是DN信号需要上拉到p3v3_STBY,如果不是，上拉电阻BOM去掉
+
+3.PCIE模块
+	1.AST2500提供PCI-E Gen2 x1 接口连接到PCH
+	2.当使用VGA/MSI/MCTP功能，X1 PCIE必须连接到主机
+	3.AST2500支持flash update工具"SOCFlash"可以在DOS/Windows/Linux,这种模式需要PCIE port连接到host端
+	4.AST2500内部的所用内部IP都可以通过PCIE通道获得
+	5.新增加PCIE Master功能，用于当AST250放在背板中使用时，不需要做从机来显示VGA,同时，BP上又有PCIE Device时，做Master使用
+
+4.Local Bus模块
+	Local Bus用于BMC和CPLD之间数据通信，地址空间为256byte
+	BMC相关的CPLD提供功能如下：
+		1.CPU的THERMTIP(热导)信号
+		2.CPU的PROCHOT信号
+		3.CPU的CATEERR信号，检测CPU故障的信号
+		4.CPUE的ERRO/1/2信号
+		5.CPU的MEMHOT信号
+		6.PWRGD信号，Sleep信号
+		7.热复位CPU，冷复位CPU
+		8.BIOS POST开始完成信号，BMC检测BIOS POST完成
+5.RGMI/RMII/NCSI
+	支持2路以太网控制器
+	支持10/100/1000mb bps传输速率
+	2路都支持RMII/NCSI总线口
+6.PWM/TACH模块
+	1.PWM支持1/256的分辨率调速，从0~100%
+	2.PWM信号用于控制风扇转速，Fan Tach是转速输入信号，用于检测风扇转速
+	3.该接口常用设计PWM直接送到CPLD中，CPLD再送到Fan连接器，TACH有FAN连接器连接到TACH PIN上
+	补充：不建议PWM或者TACH直接连接到风扇上，因为短路时可能直接烧毁芯片，建议增加隔离电路
+
+7. VGA/DVI模块
+	视频输出分为两种VGA接口输出、BMC KVM输出、DVI
+	1. BMC KVM输出
+		用过i350NCSI接口share nic(业务网卡）成BMC的网口实现远程视频输出
+	2.VGA接口输出
+		当前设计采用TS3V713ELRTGR芯片用于双VGAA设计，一个接到标准VGA接口用于服务后窗，一个街道20PIN连接器上，用于前面板的使用
+8.AST2500 I2C模块
+	I2C/SMBus
+	1.支持最多14路I2C/SMBus总控制器
+	2.每一路都可以作主机或者从机
+	3.支持I2C1-I2C4警告
+	4.支持高速3.4M bps传输
+	5.支持自动或者手动恢复SDA线锁住情况
+	6.支持IPMB功能
+	7.支持字节或者Pool操作
+9.JTAG模块
+	主要是用于升级CPLD固件的
+	AST2500 JTAG接口用于JTAF TEST，也可用于JTAG MASTER，但是根据上一代经验，BMC不会使用JTAG进行调试，所以本设计JTAG只当MASTER使用，用于升级CPLD固件使用
+
+	注意:作从机时：TDO是输出信号，TDI是输入信号
+		 作主机时：TDO时输入信号，TDI时输出信号
