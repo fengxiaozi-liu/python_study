@@ -83,6 +83,8 @@ git push origin --tag 将tag标签传递到远程仓库
 
    ```
    git config --global user.name 'fengxiaozi-liu'
+   git config --global http.proxy 代理地址
+   git config --global http.sslVerify false 取消认证
    ```
 
 3. 设置系统配置
